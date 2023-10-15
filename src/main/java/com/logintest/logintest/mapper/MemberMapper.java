@@ -3,16 +3,22 @@ package com.logintest.logintest.mapper;
 import com.logintest.logintest.domain.Member;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface MemberMapper {
     @Select("""
             SELECT * FROM
-            TB_LOGIN_MEMBER
-            WHERE login_id = #{username}
+            TB_LOGIN_MEMBER tm 
+            LEFT JOIN 
+            TB_AUTHORITY ta 
+            ON
+            tm.login_id = ta.member_id
+            WHERE login_id = #{id}
             """)
-    Member selectByMemberId(String username);
+    @ResultMap("memberMap")
+    Member selectByMemberId(String id);
 
     @Insert("""
             INSERT INTO

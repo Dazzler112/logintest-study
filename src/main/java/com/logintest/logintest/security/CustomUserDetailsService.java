@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -23,10 +26,17 @@ public class CustomUserDetailsService implements UserDetailsService {
             new UsernameNotFoundException(username + "해당 회원 조회 불가");
         }
 
+        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+
+        for(String auth : member.getAuthority()) {
+            authorityList.add(new SimpleGrantedAuthority(auth));
+        }
+
         UserDetails user = User.builder()
                 .username(member.getId())
                 .password(member.getPassword())
-                .authorities(member.getAuthority().stream().map(SimpleGrantedAuthority::new).toList())
+                .authorities(authorityList)
+//                .authorities(member.getAuthority().stream().map(SimpleGrantedAuthority::new).toList())
                 .build();
 
         return user;

@@ -22,11 +22,11 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.formLogin()
-            .loginPage("/")
-            .defaultSuccessUrl("/");
+            .loginPage("/login")
+            .defaultSuccessUrl("/main");
         http.logout()
             .logoutUrl("/")
-            .logoutSuccessUrl("/");
+            .logoutSuccessUrl("/login");
 
         return http.build();
     }

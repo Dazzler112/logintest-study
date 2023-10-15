@@ -3,6 +3,7 @@ package com.logintest.logintest.service.member;
 import com.logintest.logintest.domain.Member;
 import com.logintest.logintest.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
 
+    @Autowired
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     private MemberMapper memMapper;
 
     @Override
