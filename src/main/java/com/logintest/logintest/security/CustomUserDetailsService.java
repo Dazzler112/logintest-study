@@ -16,6 +16,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
+
     private final MemberMapper mapper;
 
     @Override
@@ -23,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = mapper.selectByMemberId(username);
 
         if(member == null) {
-            new UsernameNotFoundException(username + "해당 회원 조회 불가");
+           throw new UsernameNotFoundException(username + "해당 회원 조회 불가");
         }
 
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
@@ -35,8 +36,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserDetails user = User.builder()
                 .username(member.getId())
                 .password(member.getPassword())
-                .authorities(authorityList)
-//                .authorities(member.getAuthority().stream().map(SimpleGrantedAuthority::new).toList())
+//                .authorities(authorityList)
+                .authorities(member.getAuthority().stream().map(SimpleGrantedAuthority::new).toList())
                 .build();
 
         return user;

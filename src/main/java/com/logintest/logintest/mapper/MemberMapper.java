@@ -1,20 +1,17 @@
 package com.logintest.logintest.mapper;
 
 import com.logintest.logintest.domain.Member;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MemberMapper {
     @Select("""
             SELECT * FROM
-            TB_LOGIN_MEMBER tm 
+            TB_LOGIN_MEMBER t 
             LEFT JOIN 
-            TB_AUTHORITY ta 
+            TB_AUTHORITY a 
             ON
-            tm.login_id = ta.member_id
+            t.login_id = a.member_id
             WHERE login_id = #{id}
             """)
     @ResultMap("memberMap")
